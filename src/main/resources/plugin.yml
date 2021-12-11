@@ -1,0 +1,11 @@
+name: Survival
+main: de.leonheuer.Survival
+version: 1.0.0
+author: Hakuyamu
+api-version: 1.18
+
+commands:
+  skip:
+    description: skip night command
+  alliance:
+    description: alliance command
