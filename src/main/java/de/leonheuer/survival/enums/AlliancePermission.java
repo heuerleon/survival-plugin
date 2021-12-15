@@ -1,5 +1,9 @@
 package de.leonheuer.survival.enums;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+
 public enum AlliancePermission {
 
     BASIC("Kein Schaden und Chatten", 0, "Mitglied I"),
@@ -29,5 +33,13 @@ public enum AlliancePermission {
 
     public String getRank() {
         return rank;
+    }
+
+    @Nullable
+    public static AlliancePermission fromPermLevel(int level) {
+        return Arrays.stream(AlliancePermission.values())
+                .filter(perm -> perm.permLevel == level)
+                .findFirst()
+                .orElse(null);
     }
 }

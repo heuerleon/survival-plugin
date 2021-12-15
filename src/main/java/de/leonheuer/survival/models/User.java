@@ -3,7 +3,9 @@ package de.leonheuer.survival.models;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class User {
@@ -14,6 +16,7 @@ public class User {
     private int kills = 0;
     private long lastDeath;
     private Map<String, String> remembered = new HashMap<>();
+    private List<String> invites = new ArrayList<>();
 
     public User() {}
 
@@ -61,4 +64,11 @@ public class User {
         this.remembered = remembered;
     }
 
+    public List<String> getInvites() {
+        return invites;
+    }
+
+    public void setInvites(List<String> invites) {
+        this.invites = invites;
+    }
 }

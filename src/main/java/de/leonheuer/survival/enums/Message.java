@@ -8,6 +8,9 @@ public enum Message {
 
     ALLIANCE_UNKNOWN("&cUnbekannter Befehl. Siehe /alliance help"),
     ALLIANCE_NO_OWNER("&cDir gehört keine Allianz."),
+    ALLIANCE_NO_MEMBER("&cDu bist in keiner Allianz Mitglied."),
+    INVALID_PLAYER("&cDer Spieler %player ist unbekannt."),
+    NO_PERMISSION("&cDu musst mindestens Manager einer Allianz sein."),
 
     ALLIANCE_CREATE_SYNTAX("&e/alliance create <Name> <Tag>"),
     ALLIANCE_CREATE_NAME_EXISTS("&cEine Allianz mit dem Name %name existiert bereits."),
@@ -18,6 +21,26 @@ public enum Message {
     ALLIANCE_CREATE_TAG("&cDer Tag darf maximal 5 und minimal 3 Zeichen lang sein."),
 
     ALLIANCE_DISBAND_SUCCESS("&4Du hast die Allianz %name [%tag] aufgelöst!"),
+
+    ALLIANCE_INVITE_SYNTAX("&e/alliance invite <Nachricht>"),
+    ALLIANCE_INVITE_ALREADY("&cDer Spieler %player wurde bereits in deine Allianz eingeladen."),
+    ALLIANCE_INVITE_SUCCESS("&aDer Spieler %player wurde erfolgreich in die Allianz %name [%tag] eingeladen."),
+
+    ALLIANCE_TRANSFER_SYNTAX("&e/alliance transfer <Spieler>"),
+    ALLIANCE_TRANSFER_SUCCESS("&2Du hast die Allianz %name [%tag] erfolgreich an %player übertragen."),
+
+    ALLIANCE_INFO("&7Infos zur Allianz &b%name &8[&7%tag&8]&7:\n&8» &6Ersteller: &7%owner\n&bMitglieder&7:"),
+    ALLIANCE_MEMBER("&8» &7%name &8- &7%rank"),
+    ALLIANCE_NO_MEMBERS("&8» &ckeine"),
+    ALLIANCE_NOT_EXIST("&cEine Allianz mit dem Tag [%tag] konnte nicht gefunden werden."),
+
+    ALLIANCE_RANK("&8(&7%level&8) &e%rank &8- &7%name"),
+
+    ALLIANCE_CHAT("&e%sender &8» &7%message"),
+    ALLIANCE_CHAT_SYNTAX("&e/alliance chat <Nachricht>"),
+
+    ALLIANCE_LEAVE_OWNER("&cDu kannst deine eigene Allianz nicht verlassen."),
+    ALLIANCE_LEAVE_SUCCESS("&aDu hast die Allianz %name [%tag] verlassen."),
 
     ALLIANCE_SETNAME_SYNTAX("&e/alliance setname <Name>"),
     ALLIANCE_SETNAME_SUCCESS("&aDer name deiner Allianz wurde zu %name geändert."),

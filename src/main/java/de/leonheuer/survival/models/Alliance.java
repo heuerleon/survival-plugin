@@ -15,6 +15,7 @@ public class Alliance {
     private String name;
     private String tag;
     private List<String> invites = new ArrayList<>();
+    private String created;
 
     public Alliance() {}
 
