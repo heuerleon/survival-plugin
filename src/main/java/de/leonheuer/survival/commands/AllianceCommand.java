@@ -165,7 +165,7 @@ public class AllianceCommand implements CommandExecutor, TabCompleter {
 
                 user.getInvites().add(result.getTag());
                 users.replaceOne(filter, user);
-                player.sendMessage(Message.ALLIANCE_INVITE_ALREADY.getString()
+                player.sendMessage(Message.ALLIANCE_INVITE_SUCCESS.getString()
                         .replace("%player", other.getName())
                         .replace("%name", result.getName())
                         .replace("%tag", result.getTag())
@@ -177,6 +177,109 @@ public class AllianceCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage(Message.NO_PLAYER.getString().get());
                     return true;
                 }
+
+                Bson filter = Filters.eq("uuid", player.getUniqueId());
+                User user = users.find(filter).first();
+                if (user == null) {
+                    player.sendMessage(Message.ALLIANCE_INVITES_NONE.getString().get(Survival.ALLIANCE_PREFIX));
+                    return true;
+                }
+
+                StringJoiner sj = new StringJoiner("§8, §7");
+                user.getInvites().forEach(sj::add);
+                player.sendMessage(Message.ALLIANCE_INVITES.getString()
+                        .replace("%invites", sj.toString())
+                        .get(Survival.ALLIANCE_PREFIX));
+                return true;
+            }
+            case "accept" -> {
+                if (!(sender instanceof Player player)) {
+                    sender.sendMessage(Message.NO_PLAYER.getString().get());
+                    return true;
+                }
+
+                Bson filter = Filters.eq("uuid", player.getUniqueId());
+                User user = users.find(filter).first();
+                if (user == null || user.getInvites().isEmpty()) {
+                    player.sendMessage(Message.ALLIANCE_INVITES_NONE.getString().get(Survival.ALLIANCE_PREFIX));
+                    return true;
+                }
+
+                FindIterable<Alliance> memberAlliances = alliances.find();
+                Alliance result = null;
+                for (Alliance al : memberAlliances) {
+                    if (al.getMembers().containsKey(player.getUniqueId().toString())) {
+                        if (al.getMembers().get(player.getUniqueId().toString()) >= 4) {
+                            result = al;
+                            break;
+                        }
+                    }
+                    if (Objects.equals(al.getOwnerUUID(), player.getUniqueId().toString())) {
+                        result = al;
+                        break;
+                    }
+                }
+
+                if (result != null) {
+                    player.sendMessage(Message.ALLIANCE_ACCEPT_ALREADY.getString()
+                            .replace("%name", result.getName())
+                            .replace("%tag", result.getTag())
+                            .get(Survival.ALLIANCE_PREFIX));
+                    return true;
+                }
+
+                if (user.getInvites().size() > 1) {
+                    if (args.length < 2) {
+                        StringJoiner sj = new StringJoiner("§8, §7");
+                        user.getInvites().forEach(sj::add);
+                        player.sendMessage(Message.ALLIANCE_ACCEPT_SPECIFY.getString()
+                                .replace("%invites", sj.toString())
+                                .get(Survival.ALLIANCE_PREFIX));
+                        return true;
+                    }
+
+                    Bson alFilter = Filters.eq("tag", args[1].toUpperCase());
+                    Alliance specified = alliances.find(alFilter).first();
+                    if (specified == null && user.getInvites().contains(args[1].toUpperCase())) {
+                        player.sendMessage(Message.ALLIANCE_CHANGED.getString()
+                                .replace("%tag", args[1].toUpperCase())
+                                .get(Survival.ALLIANCE_PREFIX));
+                        user.getInvites().remove(args[1].toUpperCase());
+                        return true;
+                    }
+                    if (specified == null || !user.getInvites().contains(specified.getTag())) {
+                        player.sendMessage(Message.ALLIANCE_ACCEPT_NOT_INVITED.getString()
+                                .replace("%tag", args[1].toUpperCase())
+                                .get(Survival.ALLIANCE_PREFIX));
+                        return true;
+                    }
+
+                    specified.getMembers().put(player.getUniqueId().toString(), 0);
+                    user.getInvites().remove(specified.getTag());
+                    player.sendMessage(Message.ALLIANCE_ACCEPT_SUCCESS.getString()
+                            .replace("%name", specified.getName())
+                            .replace("%tag", specified.getTag())
+                            .get(Survival.ALLIANCE_PREFIX));
+                    return true;
+                }
+
+                Bson alFilter = Filters.eq("tag", user.getInvites().toArray()[0]);
+                Alliance specified = alliances.find(alFilter).first();
+                if (specified == null) {
+                    player.sendMessage(Message.ALLIANCE_CHANGED.getString()
+                            .replace("%tag", args[1].toUpperCase())
+                            .get(Survival.ALLIANCE_PREFIX));
+                    user.getInvites().remove(args[1].toUpperCase());
+                    return true;
+                }
+
+                specified.getMembers().put(player.getUniqueId().toString(), 0);
+                user.getInvites().remove(specified.getTag());
+                player.sendMessage(Message.ALLIANCE_ACCEPT_SUCCESS.getString()
+                        .replace("%name", specified.getName())
+                        .replace("%tag", specified.getTag())
+                        .get(Survival.ALLIANCE_PREFIX));
+                return true;
             }
             case "transfer" -> {
                 if (!(sender instanceof Player player)) {

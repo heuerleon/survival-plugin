@@ -9,6 +9,7 @@ public enum Message {
     ALLIANCE_UNKNOWN("&cUnbekannter Befehl. Siehe /alliance help"),
     ALLIANCE_NO_OWNER("&cDir gehört keine Allianz."),
     ALLIANCE_NO_MEMBER("&cDu bist in keiner Allianz Mitglied."),
+    ALLIANCE_CHANGED("&cDie Allianz %tag existiert nicht mehr."),
     INVALID_PLAYER("&cDer Spieler %player ist unbekannt."),
     NO_PERMISSION("&cDu musst mindestens Manager einer Allianz sein."),
 
@@ -25,6 +26,14 @@ public enum Message {
     ALLIANCE_INVITE_SYNTAX("&e/alliance invite <Nachricht>"),
     ALLIANCE_INVITE_ALREADY("&cDer Spieler %player wurde bereits in deine Allianz eingeladen."),
     ALLIANCE_INVITE_SUCCESS("&aDer Spieler %player wurde erfolgreich in die Allianz %name [%tag] eingeladen."),
+
+    ALLIANCE_INVITES("&aDu wurdest eingeladen zu: &7%invites"),
+    ALLIANCE_INVITES_NONE("&cDu hast keine Einladungen."),
+
+    ALLIANCE_ACCEPT_SPECIFY("&eDu hast mehrere Einladungen! Bitte gib an: %invites"),
+    ALLIANCE_ACCEPT_NOT_INVITED("&cDu hast keine Einladung für die Allianz mit dem Tag %tag."),
+    ALLIANCE_ACCEPT_ALREADY("&cDu bist bereits Mitglied der Allianz %name [%tag]."),
+    ALLIANCE_ACCEPT_SUCCESS("&aDu bist nun Mitglied der Allianz %name [%tag]."),
 
     ALLIANCE_TRANSFER_SYNTAX("&e/alliance transfer <Spieler>"),
     ALLIANCE_TRANSFER_SUCCESS("&2Du hast die Allianz %name [%tag] erfolgreich an %player übertragen."),
